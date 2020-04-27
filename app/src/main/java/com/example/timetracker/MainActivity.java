@@ -2,6 +2,7 @@ package com.example.timetracker;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -22,16 +23,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Handling for floating button
-        Animation rotate_left = AnimationUtils.loadAnimation(this, R.anim.rotate_left);
+        final Animation rotate_left = AnimationUtils.loadAnimation(this, R.anim.rotate_left);
         final Animation rotate_right = AnimationUtils.loadAnimation(this, R.anim.rotate_right);
         final FloatingActionButton baseFab = findViewById(R.id.floatingActionButton1);
         baseFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isFabClicked) {
-                    baseFab.startAnimation(rotate_right);
+                    v.startAnimation(rotate_right);
                 } else {
-                    baseFab.startAnimation(rotate_right);
+                    v.startAnimation(rotate_right);
                 }
                 isFabClicked = !isFabClicked;
             }
