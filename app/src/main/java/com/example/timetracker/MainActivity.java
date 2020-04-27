@@ -21,11 +21,14 @@ public class MainActivity extends AppCompatActivity {
         isFabClicked = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // Handling for floating button
+        // Load animations
         final Animation rotate_left = AnimationUtils.loadAnimation(this, R.anim.rotate_left);
         final Animation rotate_right = AnimationUtils.loadAnimation(this, R.anim.rotate_right);
-        final Animation fab2_expand = AnimationUtils.loadAnimation(this, R.anim.fab2_expand);
-        final Animation fab2_retract = AnimationUtils.loadAnimation(this, R.anim.fab2_retract);
+        final Animation fab2_rotate_left = AnimationUtils.loadAnimation(this, R.anim.fab2_rotate_left);
+        final Animation fab2_rotate_right = AnimationUtils.loadAnimation(this, R.anim.fab2_rotate_right);
+        //TODO Change this
+        String activityText = "Nothing Going on";
+        // Floating buttons handling
         final FloatingActionButton baseFab = findViewById(R.id.floatingActionButton1);
         final FloatingActionButton secondFab = findViewById(R.id.floatingActionButton2);
         secondFab.hide();
@@ -38,15 +41,16 @@ public class MainActivity extends AppCompatActivity {
         baseFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //rotation animation
+                //button animations
                 if (isFabClicked) {
                     baseFab.startAnimation(rotate_right);
-                    secondFab.startAnimation(fab2_retract);
+                    secondFab.startAnimation(fab2_rotate_right);
+                    secondFab.hide();
                     secondFab.setClickable(false);
                 } else {
                     baseFab.startAnimation(rotate_left);
                     secondFab.show();
-                    secondFab.startAnimation(fab2_expand);
+                    secondFab.startAnimation(fab2_rotate_left);
                     secondFab.setClickable(true);
                 }
                 isFabClicked = !isFabClicked;

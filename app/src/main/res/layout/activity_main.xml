@@ -7,7 +7,30 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/ActivityCard"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_gravity="center|top"
+        android:layout_marginTop="160dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginLeft="40dp">
+        <TextView
+            android:id="@+id/activityText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/activityButton"
+            android:layout_height="40dp"
+            android:layout_width="80dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="8dp"/>
+    </com.google.android.material.card.MaterialCardView>
+
+
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButton1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -17,23 +40,16 @@
 
             app:srcCompat="@drawable/ic_add_24px" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="100dp"
-        android:elevation="6dp"
-        android:src="@drawable/ic_create_24px"
-        app:backgroundTint="@color/colorSecondary"
-        app:fabSize="mini" />
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/activityChart"
-            android:layout_width="256dp"
-            android:layout_height="256dp"
-            android:layout_gravity="top|center"
-            android:layout_margin="100dp"
-            android:visibility="invisible"/>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="100dp"
+            android:layout_marginBottom="24dp"
+            android:elevation="6dp"
+            android:src="@drawable/ic_create_24px"
+            app:backgroundTint="@color/colorSecondary"
+            app:fabSize="mini" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
