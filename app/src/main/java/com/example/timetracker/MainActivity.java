@@ -35,14 +35,31 @@ public class MainActivity extends AppCompatActivity {
         final Animation rotate_right = AnimationUtils.loadAnimation(this, R.anim.rotate_right);
         final Animation fab2_rotate_left = AnimationUtils.loadAnimation(this, R.anim.fab2_rotate_left);
         final Animation fab2_rotate_right = AnimationUtils.loadAnimation(this, R.anim.fab2_rotate_right);
+        final Animation fab3_rotate_left = AnimationUtils.loadAnimation(this, R.anim.fab3_rotate_left);
+        final Animation fab3_rotate_right = AnimationUtils.loadAnimation(this, R.anim.fab3_rotate_right);
+        final Animation fab4_rotate_left = AnimationUtils.loadAnimation(this, R.anim.fab4_rotate_left);
+        final Animation fab4_rotate_right = AnimationUtils.loadAnimation(this, R.anim.fab4_rotate_right);
         // Floating buttons handling
         final FloatingActionButton baseFab = findViewById(R.id.floatingActionButton1);
-        final FloatingActionButton secondFab = findViewById(R.id.floatingActionButton2);
-        secondFab.hide();
-        secondFab.setOnClickListener(new View.OnClickListener() {
+        final FloatingActionButton addFab = findViewById(R.id.floatingActionButton2);
+        final FloatingActionButton editFab = findViewById(R.id.floatingActionButton3);
+        final FloatingActionButton playFab = findViewById(R.id.floatingActionButton4);
+
+        addFab.hide();
+        editFab.hide();
+        playFab.hide();
+
+        addFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "Fab 2");
+                Log.i(TAG, "add FAB");
+            }
+        });
+
+        editFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "edit FAB");
             }
         });
         baseFab.setOnClickListener(new View.OnClickListener() {
@@ -51,14 +68,26 @@ public class MainActivity extends AppCompatActivity {
                 //button animations
                 if (isFabClicked) {
                     baseFab.startAnimation(rotate_right);
-                    secondFab.startAnimation(fab2_rotate_right);
-                    secondFab.hide();
-                    secondFab.setClickable(false);
+                    addFab.startAnimation(fab2_rotate_right);
+                    addFab.hide();
+                    editFab.startAnimation(fab3_rotate_right);
+                    editFab.hide();
+                    playFab.startAnimation(fab4_rotate_right);
+                    playFab.hide();
+                    addFab.setClickable(false);
+                    editFab.setClickable(false);
+                    playFab.setClickable(false);
                 } else {
                     baseFab.startAnimation(rotate_left);
-                    secondFab.show();
-                    secondFab.startAnimation(fab2_rotate_left);
-                    secondFab.setClickable(true);
+                    addFab.show();
+                    addFab.startAnimation(fab2_rotate_left);
+                    editFab.show();
+                    editFab.startAnimation(fab3_rotate_left);
+                    playFab.show();
+                    playFab.startAnimation(fab4_rotate_left);
+                    addFab.setClickable(true);
+                    editFab.setClickable(true);
+                    playFab.setClickable(true);
                 }
                 isFabClicked = !isFabClicked;
             }
