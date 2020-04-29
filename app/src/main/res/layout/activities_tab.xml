@@ -4,10 +4,10 @@
     android:layout_height="match_parent">
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/activityCard"
-        android:layout_width="400dp"
+        android:layout_width="match_parent"
         android:layout_height="150dp"
         android:elevation="1dp"
-        android:text="Activities"/>
+        android:layout_margin="40dp"/>
 
 
 </LinearLayout>
