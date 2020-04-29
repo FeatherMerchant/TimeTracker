@@ -1,8 +1,11 @@
 package com.example.timetracker;
 
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager2.widget.ViewPager2;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import android.util.Log;
 import android.os.Bundle;
@@ -12,6 +15,8 @@ import android.view.animation.AnimationUtils;
 
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 
 public class MainActivity extends FragmentActivity {
@@ -30,6 +35,19 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
 
         isFabClicked = false;
+
+        ViewPager2 viewPager = findViewById(R.id.pager);
+        FragmentStateAdapter pageAdapter = new PageAdapter(this);
+        viewPager.setAdapter(pageAdapter);
+        TabLayout tabs = findViewById(R.id.tabs);
+
+        new TabLayoutMediator(tabs, viewPager, (tab, position) -> {
+            if (position == 0) {
+                tab.setText("Activities");
+            } else {
+                tab.setText("Calendar");
+            }
+        }).attach();
 
         // Load animations
 

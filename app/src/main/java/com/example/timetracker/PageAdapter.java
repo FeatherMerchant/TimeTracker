@@ -6,13 +6,12 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class PageAdapter extends FragmentStateAdapter {
     private final int NUM_TABS = 3;
-
-    public PageAdapter(Fragment fragment) {
+    public PageAdapter(FragmentActivity fragment) {
         super(fragment);
     }
 
-    public Fragment createFragment(int count) {
-        if (count == 0) {
+    public Fragment createFragment(int page) {
+        if (page == 0) {
             return new ActivitiesFragment();
         } else {
             return new CalendarFragment();
@@ -20,6 +19,6 @@ public class PageAdapter extends FragmentStateAdapter {
     }
 
     public int getItemCount() {
-        return NUM_TABS;
+        return 3;
     }
 }

@@ -21,11 +21,5 @@ public class CalendarFragment extends Fragment {
         return rootView;
     }
 
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        pageAdapter = new PageAdapter(this);
-        pager = view.findViewById(R.id.pager);
-        pager.setAdapter(pageAdapter);
-        TabLayout tabLayout = view.findViewById(R.id.tabs);
-        new TabLayoutMediator(tabLayout, pager, (tab, position) -> tab.setText("Activities")).attach();
-    }
+
 }
