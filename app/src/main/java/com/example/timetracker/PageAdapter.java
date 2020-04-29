@@ -7,8 +7,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 public class PageAdapter extends FragmentStateAdapter {
     private final int NUM_TABS = 3;
 
-    public PageAdapter(FragmentActivity fragmentActivity) {
-        super(fragmentActivity);
+    public PageAdapter(Fragment fragment) {
+        super(fragment);
     }
 
     public Fragment createFragment(int count) {
