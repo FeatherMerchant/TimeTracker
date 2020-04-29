@@ -1,6 +1,7 @@
 package com.example.timetracker;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.util.Log;
 import android.os.Bundle;
@@ -10,7 +11,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.github.mikephil.charting.charts.PieChart;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,19 +18,18 @@ public class MainActivity extends AppCompatActivity {
     private boolean isFabClicked;
     private final String TAG = "MainActivity";
 
-    private boolean activityRunning;
+    /*Handles tabs*/
+    private ViewPager2 pager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        isFabClicked = false;
-        //TODO Change this
-        activityRunning = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        isFabClicked = false;
+        pager = findViewById(R.id.pager);
         // Load animations
-        TextView activityText = findViewById(R.id.activityText);
-        if (!activityRunning) {
-            activityText.setText("No Activity");
-        }
+
         final Animation rotate_left = AnimationUtils.loadAnimation(this, R.anim.rotate_left);
         final Animation rotate_right = AnimationUtils.loadAnimation(this, R.anim.rotate_right);
         final Animation fab2_rotate_left = AnimationUtils.loadAnimation(this, R.anim.fab2_rotate_left);
