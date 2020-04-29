@@ -1,6 +1,7 @@
 package com.example.timetracker;
 
-import androidx.appcompat.app.AppCompatActivity;
+
+import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.util.Log;
@@ -11,23 +12,32 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FragmentActivity {
 
     /*Checks if FAB has been clicked already */
     private boolean isFabClicked;
+
     private final String TAG = "MainActivity";
 
     /*Handles tabs*/
     private ViewPager2 pager;
 
-    @Override
+    private PageAdapter pageAdapter;
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         isFabClicked = false;
+        //Setting up adapter for fragments
         pager = findViewById(R.id.pager);
+        pageAdapter = new PageAdapter(this);
+        pager.setAdapter(pageAdapter);
+
         // Load animations
 
         final Animation rotate_left = AnimationUtils.loadAnimation(this, R.anim.rotate_left);
@@ -91,9 +101,6 @@ public class MainActivity extends AppCompatActivity {
                 isFabClicked = !isFabClicked;
             }
         });
-
-
     }
-
 
 }
