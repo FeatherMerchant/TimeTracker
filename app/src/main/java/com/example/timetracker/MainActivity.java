@@ -42,8 +42,10 @@ public class MainActivity extends FragmentActivity {
         new TabLayoutMediator(tabs, viewPager, (tab, position) -> {
             if (position == 0) {
                 tab.setText("Activities");
-            } else {
+            } else if (position == 1){
                 tab.setText("Calendar");
+            } else {
+                tab.setText("Statistics");
             }
         }).attach();
 

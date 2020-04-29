@@ -21,6 +21,6 @@ public class PageAdapter extends FragmentStateAdapter {
     }
 
     public int getItemCount() {
-        return 2;
+        return 3;
     }
 }
