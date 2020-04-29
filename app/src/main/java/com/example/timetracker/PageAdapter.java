@@ -10,11 +10,13 @@ public class PageAdapter extends FragmentStateAdapter {
         super(fragment);
     }
 
-    public Fragment createFragment(int page) {
-        if (page == 0) {
+    public Fragment createFragment(int position) {
+        if (position == 0) {
             return new ActivitiesFragment();
-        } else {
+        } else if (position == 1){
             return new CalendarFragment();
+        } else {
+            return new StatisticsFragment();
         }
     }
 

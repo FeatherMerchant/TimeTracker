@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/activityCard"
+        android:id="@+id/statisticsCard"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:elevation="1dp"
@@ -13,9 +13,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Activities"
+            android:text="Statistics"
             android:gravity="center"/>
     </com.google.android.material.card.MaterialCardView>
-
-
 </LinearLayout>
