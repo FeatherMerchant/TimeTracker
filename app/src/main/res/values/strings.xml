@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">TimeTracker</string>
+    <string name = "midnight">12 a.m.</string>
+    <string name = "one_am">1 a.m.</string>
+    <string name = "twoam">2 a.m.</string>
+    <string name = "threeam">3 a.m.</string>
+    <string name = "fouram">4 a.m.</string>
+    <string name = "fiveam">5 a.m.</string>
+    <string name = "sixam">6 a.m.</string>
+    <string name = "sevenam">7 a.m.</string>
+    <string name = "eightam">8 a.m.</string>
+    <string name = "nineam">9 a.m.</string>
+    <string name = "tenam">10 a.m.</string>
+    <string name = "elevenam">11 a.m.</string>
+    <string name = "noon">12 p.m.</string>
+    <string name = "onepm">1 p.m.</string>
+    <string name = "twopm">2 p.m.</string>
+    <string name = "threepm">3 p.m.</string>
+    <string name = "fourpm">4 p.m.</string>
+    <string name = "fivepm">5 p.m.</string>
+    <string name = "sixpm">6 p.m.</string>
+    <string name = "sevenpm">7 p.m.</string>
+    <string name = "eightpm">8 p.m.</string>
+    <string name = "ninepm">9 p.m.</string>
+    <string name = "tenpm">10 p.m.</string>
+    <string name = "elevenpm">11 p.m.</string>
 </resources>
