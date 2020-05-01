@@ -20,7 +20,7 @@ public class ActivityLog {
 
     public double getPercentage(Activity activity) {
         int totalTime = 0;
-        boolean isFound;
+        boolean isFound = false;
         for (int i = 0; i < activityList.size(); i++) {
             if (activityList.get(i).equals(activity)) {
                 isFound = true;
