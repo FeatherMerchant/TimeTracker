@@ -34,6 +34,23 @@ public class Activity {
         totalTime += this.getElapsedMilli();
     }
 
+    public void setTotalTime(long totalTime) {
+        totalTime = totalTime;
+    }
+
+    public long getTotalTime() {
+        return totalTime;
+    }
+
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Activity)) {
+            return false;
+        }
+        Activity toCompare = (Activity) obj;
+        return toCompare.totalTime == this.totalTime && toCompare.name.equals(this.name);
+    }
+
+
     private long getElapsedMilli() {
         return endTime - startTime;
     }
