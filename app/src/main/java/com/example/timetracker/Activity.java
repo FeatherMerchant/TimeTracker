@@ -1,20 +1,40 @@
 package com.example.timetracker;
 
+import android.content.Context;
+import android.view.View;
+
+import com.google.android.material.card.MaterialCardView;
+
 public class Activity {
+
     private String name;
     private long startTime;
     private long endTime;
     private long totalTime;
-    boolean isActive;
+    private boolean isActive;
 
-    public Activity(String setName) {
+    MaterialCardView card;
+    Context context;
+
+    public Activity(String setName, Context setContext) {
         name = setName;
         totalTime = 0;
+        context = setContext;
+        card = new MaterialCardView(context);
+        card.setOnClickListener(v -> {
+
+        });
     }
 
-    public  Activity(String setName, long setTotalTime) {
+    public  Activity(String setName, long setTotalTime, Context setContex) {
         name = setName;
         totalTime = setTotalTime;
+        context = setContex;
+        card = new MaterialCardView(context);
+    }
+
+    public boolean isActive() {
+        return isActive;
     }
 
     public void setName(String setName) {
@@ -26,10 +46,12 @@ public class Activity {
     }
 
     public void start() {
+        isActive = true;
         startTime = System.currentTimeMillis();
     }
 
     public void stop() {
+        isActive = false;
         endTime = System.currentTimeMillis();
         totalTime += this.getElapsedMilli();
     }
