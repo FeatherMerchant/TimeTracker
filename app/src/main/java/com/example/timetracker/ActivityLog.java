@@ -3,6 +3,10 @@ package com.example.timetracker;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 public class ActivityLog {
     private List<Activity> activityList;
 
@@ -34,4 +38,20 @@ public class ActivityLog {
         double percentage = (double) activity.getTotalTime() / totalTime * 100.0;
         return percentage;
     }
+
+    public JsonArray toJson() {
+        Gson gson = new Gson();
+        JsonArray jsonArray = new JsonArray();
+
+        for (int i = 0; i < activityList.size(); i++) {
+            JsonObject activityJson = new JsonObject();
+            activityJson.addProperty("name", activityList.get(i).getName());
+            activityJson.addProperty("startTime", activityList.get(i).getStartTime());
+            activityJson.addProperty("totalTime", activityList.get(i).getTotalTime());
+            activityJson.addProperty("isActive", activityList.get(i).isActive());
+            jsonArray.add(activityJson);
+        }
+        return jsonArray;
+    }
+
 }

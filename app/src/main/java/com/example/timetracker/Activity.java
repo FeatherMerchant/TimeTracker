@@ -18,18 +18,30 @@ public class Activity {
 
     public Activity(String setName, Context setContext) {
         name = setName;
-        totalTime = 0;
         context = setContext;
+        totalTime = 0;
+        startTime = 0;
+        endTime = 0;
         card = new MaterialCardView(context);
         card.setOnClickListener(v -> {
 
         });
     }
 
-    public  Activity(String setName, long setTotalTime, Context setContex) {
+    public  Activity(String setName, long setTotalTime, Context setContext) {
         name = setName;
         totalTime = setTotalTime;
-        context = setContex;
+        context = setContext;
+        startTime = 0;
+        endTime = 0;
+        card = new MaterialCardView(context);
+    }
+
+    public Activity(String setName, long setStartTime, long setTotalTime, Context setContext) {
+        name = setName;
+        startTime = setStartTime;
+        totalTime = setTotalTime;
+        context = setContext;
         card = new MaterialCardView(context);
     }
 
@@ -45,15 +57,12 @@ public class Activity {
         return name;
     }
 
-    public void start() {
-        isActive = true;
-        startTime = System.currentTimeMillis();
+    public void setStartTime(long setStartTime) {
+        startTime = setStartTime;
     }
 
-    public void stop() {
-        isActive = false;
-        endTime = System.currentTimeMillis();
-        totalTime += this.getElapsedMilli();
+    public long getStartTime() {
+        return  startTime;
     }
 
     public void setTotalTime(long totalTime) {
@@ -75,5 +84,16 @@ public class Activity {
 
     private long getElapsedMilli() {
         return endTime - startTime;
+    }
+
+    public void start() {
+        isActive = true;
+        startTime = System.currentTimeMillis();
+    }
+
+    public void stop() {
+        isActive = false;
+        endTime = System.currentTimeMillis();
+        totalTime += this.getElapsedMilli();
     }
 }
