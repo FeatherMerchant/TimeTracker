@@ -2,8 +2,6 @@ package com.example.timetracker;
 
 
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
@@ -38,9 +36,6 @@ public class MainActivity extends FragmentActivity {
         viewPager.setAdapter(pageAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
         new TabLayoutMediator(tabs, viewPager, (tab, position) -> {
             if (position == 0) {
                 tab.setText("Activities");
@@ -60,7 +55,7 @@ public class MainActivity extends FragmentActivity {
         final Animation fab4_rotate_left = AnimationUtils.loadAnimation(this, R.anim.fab4_rotate_left);
         final Animation fab4_rotate_right = AnimationUtils.loadAnimation(this, R.anim.fab4_rotate_right);
         // Floating buttons handling
-        final FloatingActionButton baseFab = findViewById(R.id.floatingActionButton1);
+        //final FloatingActionButton baseFab = findViewById(R.id.floatingActionButton1);
         final FloatingActionButton addFab = findViewById(R.id.floatingActionButton2);
         final FloatingActionButton editFab = findViewById(R.id.floatingActionButton3);
         final FloatingActionButton playFab = findViewById(R.id.floatingActionButton4);
@@ -76,8 +71,10 @@ public class MainActivity extends FragmentActivity {
         editFab.setOnClickListener(v -> {
                 Log.i(TAG, "edit FAB");
         });
-
+/*
         baseFab.setOnClickListener(v -> {
+
+            TextPromptFragment prompt = new TextPromptFragment();
 
             //button animations
             /*
@@ -112,11 +109,10 @@ public class MainActivity extends FragmentActivity {
             }
             isFabClicked = !isFabClicked;
 
-             */
+
         });
+
+ */
     }
 
-    public ActivityLog loadActivities() {
-        return null;
-    }
 }

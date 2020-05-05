@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 
@@ -20,17 +21,17 @@ public class ActivitiesFragment extends Fragment {
     private ActivityLog activityLog;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
-    FragmentManager fragmentManager;
-    private FragmentTransaction fragmentTransaction;
+    private FragmentManager fragmentManager;
+    private FloatingActionButton addButton;
 
     //Called before onCreateView
-    public void  onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void  onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         Context context = this.getActivity();
         //Used for adding activity card fragments
         fragmentManager = getFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
 
+        addButton = getView().findViewById(R.id.add_button);
         //initializing sharedPreferences for data storage
         sharedPref = context.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         editor = sharedPref.edit();
@@ -40,7 +41,7 @@ public class ActivitiesFragment extends Fragment {
         if (activityValues != null) {
             JsonArray jsonArray = new Gson().fromJson(activityValues, JsonArray.class);
             if (jsonArray != null) {
-                activityLog = new ActivityLog(jsonArray);
+            activityLog = new ActivityLog(jsonArray);
             }
         } else {
             activityLog = new ActivityLog();
@@ -48,11 +49,22 @@ public class ActivitiesFragment extends Fragment {
 
         //Populates activities tab with activity cards
         for (int i = 0; i < activityLog.size(); i++) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             Activity newActivity = activityLog.get(i);
             ActivityCardFragment newFragment = new ActivityCardFragment(newActivity);
-            fragmentTransaction.add(R.id.fragmentContainer, newFragment);
+            fragmentTransaction.add(R.id.fragmentContainer, newFragment).commit();
         }
-        fragmentTransaction.commit();
+
+        addButton.setOnClickListener(v ->{
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            TextPromptFragment prompt = new TextPromptFragment();
+            fragmentTransaction.add(R.id.frame, prompt).commit();
+            if (prompt.getInput() != null) {
+                Activity newActivity = new Activity(prompt.getInput());
+                activityLog.add(newActivity);
+            }
+            fragmentTransaction.remove(prompt);
+        });
     }
 
     //Called when fragment is created on the screen.

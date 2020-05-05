@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment;
 
 
 public class CalendarFragment extends Fragment {
-
+    public void onCreate(Bundle savedInstance) {
+        super.onCreate(savedInstance);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.calendar_tab, container, false);

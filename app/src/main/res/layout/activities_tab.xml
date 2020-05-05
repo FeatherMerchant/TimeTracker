@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:id="@+id/frame">
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="12dp"
+        android:elevation="6dp"
+        android:src="@drawable/ic_add_24px" />
 
     <LinearLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="350dp"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:layout_gravity="center"
-        android:layout_marginTop="100dp"></LinearLayout>
-</LinearLayout>
+        android:layout_marginTop="100dp"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</FrameLayout>

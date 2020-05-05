@@ -1,6 +1,7 @@
 package com.example.timetracker;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,17 +22,28 @@ public class TextPromptFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceBundle) {
-        Context context = getActivity();
-        editText = new EditText(context);
+        super.onViewCreated(view, savedInstanceBundle);
+        editText = getView().findViewById(R.id.edit_text);
         doneButton = getView().findViewById(R.id.done_button);
         cancelButton = getView().findViewById(R.id.cancel_button);
+    }
 
-        doneButton.setOnClickListener(v ->{
-
-        });
+    @Override
+    public void onPause() {
+        super.onPause();
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("promptInput", editText.getText().toString());
     }
 
     public String getInput() {
+        doneButton.setOnClickListener(v ->{
+            input = editText.getText().toString();
+        });
 
+        cancelButton.setOnClickListener(v ->{
+            input = null;
+        });
+        return input;
     }
 }
