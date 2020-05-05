@@ -29,8 +29,8 @@ public class ActivityLog {
     public ActivityLog() {
         activityList = new ArrayList<>();
         //TODO Remove this Test
-        Activity test = new Activity("Running", System.currentTimeMillis() - 900000, 0);
-        Activity test2 = new Activity("Gaming", System.currentTimeMillis() - 9000000, 9000000 + 900000);
+        Activity test = new Activity("Running", 1588647600, 0);
+        Activity test2 = new Activity("Gaming", 1588655460, 9000000 + 900000);
         activityList.add(test);
         activityList.add(test2);
     }

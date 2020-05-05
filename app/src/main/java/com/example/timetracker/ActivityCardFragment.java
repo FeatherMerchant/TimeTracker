@@ -3,6 +3,7 @@ package com.example.timetracker;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,9 @@ public class ActivityCardFragment extends Fragment {
     private TextView timerText;
     private Activity activity;
     private Button startStopButton;
+
+    //System time when timer is stopped
+    private long timeWhenStopped;
 
     private Handler handler;
 
@@ -43,11 +47,39 @@ public class ActivityCardFragment extends Fragment {
         startStopButton = getView().findViewById(R.id.startStopButton);
         startStopButton.setText("START");
 
+        int timeElapsed = (int) activity.getElapsedMilli();
+        int seconds = timeElapsed / 1000 % 60;
+        int minutes = timeElapsed / 60000 % 60;
+        int hours = timeElapsed / 3600000;
+
+        String secondsString;
+        String minutesString;
+        String hoursString;
+
+        if (seconds < 10) {
+            secondsString = "0" + seconds;
+        } else {
+            secondsString = "" + seconds;
+        }
+
+        if (minutes == 0) {
+            minutesString = "00:";
+        } else {
+            minutesString = minutes + ":";
+        }
+
+        if (hours == 0) {
+            hoursString = "";
+        } else {
+            hoursString = hours + ":";
+        }
+        timerText.setText(hoursString + minutesString + secondsString);
 
         //Sets up an onClickListener to stop and start the timer
         startStopButton.setOnClickListener(v -> {
             if (activity.isActive()) {
                 activity.stop();
+                timeWhenStopped = System.currentTimeMillis();
                 startStopButton.setText("START");
             } else {
                 activity.start();
@@ -60,14 +92,24 @@ public class ActivityCardFragment extends Fragment {
 
     //Runnable thingy, don't really understand how it works, but it runs in parallel to the main
     //program and allows us to update the timer text.
-    Runnable clockTimer = new Runnable() {
+    private Runnable clockTimer = new Runnable() {
         @Override
         public void run() {
+            //when the timer was paused
+            int timeStopped = 0;
+            boolean wasStopped = false;
+            int timeElapsed;
             if (activity.isActive()) {
-                int timeElapsed = (int) activity.getElapsedMilli();
+
+                if (timeWhenStopped != 0) {
+                    timeElapsed = (int) (activity.getElapsedMilli() - System.currentTimeMillis() - timeWhenStopped);
+                    Log.i("ActivtyCardFragment", "Used it baybee");
+                } else {
+                    timeElapsed = (int) activity.getElapsedMilli();
+                }
                 int seconds = timeElapsed / 1000 % 60;
-                int minutes = seconds / 60 % 60;
-                int hours = minutes / 60;
+                int minutes = timeElapsed / 60000 % 60;
+                int hours = timeElapsed / 3600000;
 
                 String secondsString;
                 String minutesString;
@@ -90,9 +132,10 @@ public class ActivityCardFragment extends Fragment {
                 } else {
                     hoursString = hours + ":";
                 }
+
                 timerText.setText(hoursString + minutesString + secondsString);
             }
-            //recursive, calls it self in
+            //recursive, calls its self
             handler.postDelayed(clockTimer, 1000);
         }
     };

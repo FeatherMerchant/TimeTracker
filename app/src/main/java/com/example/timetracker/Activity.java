@@ -70,9 +70,13 @@ public class Activity {
         return System.currentTimeMillis() - startTime;
     }
 
-    public void start() {
+    public void resetStart() {
         isActive = true;
         startTime = System.currentTimeMillis();
+    }
+
+    public void start() {
+        isActive = true;
     }
 
     public void stop() {
