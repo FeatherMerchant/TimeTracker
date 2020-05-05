@@ -9,7 +9,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import android.util.Log;
 import android.os.Bundle;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
@@ -38,6 +37,9 @@ public class MainActivity extends FragmentActivity {
         FragmentStateAdapter pageAdapter = new PageAdapter(this);
         viewPager.setAdapter(pageAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         new TabLayoutMediator(tabs, viewPager, (tab, position) -> {
             if (position == 0) {
@@ -76,8 +78,11 @@ public class MainActivity extends FragmentActivity {
         });
 
         baseFab.setOnClickListener(v -> {
+
             //button animations
+            /*
             if (isFabClicked) {
+
                 baseFab.startAnimation(rotate_right);
                 addFab.startAnimation(fab2_rotate_right);
                 addFab.hide();
@@ -88,8 +93,11 @@ public class MainActivity extends FragmentActivity {
                 addFab.setClickable(false);
                 editFab.setClickable(false);
                 playFab.setClickable(false);
+
+
             } else {
                 baseFab.startAnimation(rotate_left);
+
                 addFab.show();
                 addFab.startAnimation(fab2_rotate_left);
                 editFab.show();
@@ -99,8 +107,12 @@ public class MainActivity extends FragmentActivity {
                 addFab.setClickable(true);
                 editFab.setClickable(true);
                 playFab.setClickable(true);
+
+
             }
             isFabClicked = !isFabClicked;
+
+             */
         });
     }
 
