@@ -2,20 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/activityCard"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:elevation="1dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginHorizontal="40dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Activities"
-            android:gravity="center"/>
-    </com.google.android.material.card.MaterialCardView>
-
-
+    <LinearLayout
+        android:id="@+id/activityCardLayout"
+        android:layout_width="350dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_marginTop="100dp"></LinearLayout>
 </LinearLayout>

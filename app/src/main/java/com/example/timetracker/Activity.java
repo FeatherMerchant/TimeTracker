@@ -9,36 +9,28 @@ public class Activity {
 
     private String name;
     private long startTime;
-    private long endTime;
     private long totalTime;
     private boolean isActive;
 
     MaterialCardView card;
     Context context;
 
-    public Activity(String setName, Context setContext) {
+    public Activity(String setName) {
         name = setName;
-        context = setContext;
         totalTime = 0;
         startTime = 0;
-        endTime = 0;
     }
 
-    public  Activity(String setName, long setTotalTime, Context setContext) {
+    public  Activity(String setName, long setTotalTime) {
         name = setName;
         totalTime = setTotalTime;
-        context = setContext;
         startTime = 0;
-        endTime = 0;
-        card = new MaterialCardView(context);
     }
 
-    public Activity(String setName, long setStartTime, long setTotalTime, Context setContext) {
+    public Activity(String setName, long setStartTime, long setTotalTime) {
         name = setName;
         startTime = setStartTime;
         totalTime = setTotalTime;
-        context = setContext;
-        card = new MaterialCardView(context);
     }
 
     public boolean isActive() {
@@ -78,8 +70,8 @@ public class Activity {
     }
 
 
-    private long getElapsedMilli() {
-        return endTime - startTime;
+    public long getElapsedMilli() {
+        return System.currentTimeMillis() - startTime;
     }
 
     public void start() {
@@ -89,7 +81,6 @@ public class Activity {
 
     public void stop() {
         isActive = false;
-        endTime = System.currentTimeMillis();
         totalTime += this.getElapsedMilli();
     }
 }

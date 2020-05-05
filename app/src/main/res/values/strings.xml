@@ -24,4 +24,6 @@
     <string name = "ninepm">9 p.m.</string>
     <string name = "tenpm">10 p.m.</string>
     <string name = "elevenpm">11 p.m.</string>
+
+    <string name = "preference_file_key"> com.example.timetracker.PREFERENCE_FILE_KEY</string>
 </resources>

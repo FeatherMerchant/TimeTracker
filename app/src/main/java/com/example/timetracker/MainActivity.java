@@ -2,6 +2,8 @@ package com.example.timetracker;
 
 
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
@@ -24,14 +26,13 @@ public class MainActivity extends FragmentActivity {
 
     private final String TAG = "MainActivity";
 
-    /*Handles tabs*/
-
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         isFabClicked = false;
 
         ViewPager2 viewPager = findViewById(R.id.pager);
@@ -42,8 +43,6 @@ public class MainActivity extends FragmentActivity {
         new TabLayoutMediator(tabs, viewPager, (tab, position) -> {
             if (position == 0) {
                 tab.setText("Activities");
-            } else if (position == 1){
-                tab.setText("Calendar");
             } else {
                 tab.setText("Statistics");
             }
@@ -69,49 +68,44 @@ public class MainActivity extends FragmentActivity {
         editFab.hide();
         playFab.hide();
 
-        addFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        addFab.setOnClickListener(v -> {
                 Log.i(TAG, "add FAB");
-            }
         });
 
-        editFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        editFab.setOnClickListener(v -> {
                 Log.i(TAG, "edit FAB");
-            }
         });
-        baseFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //button animations
-                if (isFabClicked) {
-                    baseFab.startAnimation(rotate_right);
-                    addFab.startAnimation(fab2_rotate_right);
-                    addFab.hide();
-                    editFab.startAnimation(fab3_rotate_right);
-                    editFab.hide();
-                    playFab.startAnimation(fab4_rotate_right);
-                    playFab.hide();
-                    addFab.setClickable(false);
-                    editFab.setClickable(false);
-                    playFab.setClickable(false);
-                } else {
-                    baseFab.startAnimation(rotate_left);
-                    addFab.show();
-                    addFab.startAnimation(fab2_rotate_left);
-                    editFab.show();
-                    editFab.startAnimation(fab3_rotate_left);
-                    playFab.show();
-                    playFab.startAnimation(fab4_rotate_left);
-                    addFab.setClickable(true);
-                    editFab.setClickable(true);
-                    playFab.setClickable(true);
-                }
-                isFabClicked = !isFabClicked;
+
+        baseFab.setOnClickListener(v -> {
+            //button animations
+            if (isFabClicked) {
+                baseFab.startAnimation(rotate_right);
+                addFab.startAnimation(fab2_rotate_right);
+                addFab.hide();
+                editFab.startAnimation(fab3_rotate_right);
+                editFab.hide();
+                playFab.startAnimation(fab4_rotate_right);
+                playFab.hide();
+                addFab.setClickable(false);
+                editFab.setClickable(false);
+                playFab.setClickable(false);
+            } else {
+                baseFab.startAnimation(rotate_left);
+                addFab.show();
+                addFab.startAnimation(fab2_rotate_left);
+                editFab.show();
+                editFab.startAnimation(fab3_rotate_left);
+                playFab.show();
+                playFab.startAnimation(fab4_rotate_left);
+                addFab.setClickable(true);
+                editFab.setClickable(true);
+                playFab.setClickable(true);
             }
+            isFabClicked = !isFabClicked;
         });
     }
 
+    public ActivityLog loadActivities() {
+        return null;
+    }
 }
