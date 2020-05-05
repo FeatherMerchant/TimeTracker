@@ -29,10 +29,21 @@ public class ActivityLog {
     public ActivityLog() {
         activityList = new ArrayList<>();
         //TODO Remove this Test
-        Activity test = new Activity("Running", System.currentTimeMillis() - 900000, 0);
-        Activity test2 = new Activity("Gaming", 1588655460, 9000000 + 900000);
+//        Activity test = new Activity("Running", System.currentTimeMillis() - 900000, 0);
+//        Activity test2 = new Activity("Gaming", 1588655460, 9000000 + 900000);
+//        activityList.add(test);
+//        activityList.add(test2);
+        //Edited the test constructor to check pie chart functionality. -Arif
+        //I basically used the setStartTime field to put in hypothetical time spent on activities
+        //in minutes.
+        Activity test = new Activity("Running", 30, 0);
+        Activity test2 = new Activity("Gaming", 60, 9000000 + 900000);
+        Activity test3 = new Activity("Studying", 120, 0);
+        Activity test4 = new Activity("Reading", 120, 9000000 + 900000);
         activityList.add(test);
         activityList.add(test2);
+        activityList.add(test3);
+        activityList.add(test4);
     }
 
     public void add(Activity activity) {
