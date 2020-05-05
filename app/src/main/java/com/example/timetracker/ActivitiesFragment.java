@@ -40,7 +40,9 @@ public class ActivitiesFragment extends Fragment {
         String activityValues = sharedPref.getString(getString(R.string.activity_log_values_key), null);
         if (activityValues != null) {
             JsonArray jsonArray = new Gson().fromJson(activityValues, JsonArray.class);
-            activityLog = new ActivityLog(jsonArray);
+            if (jsonArray != null) {
+                activityLog = new ActivityLog(jsonArray);
+            }
         } else {
             activityLog = new ActivityLog();
         }

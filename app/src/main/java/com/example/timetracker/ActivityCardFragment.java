@@ -18,9 +18,8 @@ public class ActivityCardFragment extends Fragment {
     private TextView timerText;
     private Activity activity;
     private Button startStopButton;
+    private Button resetButton;
 
-    //System time when timer is stopped
-    private long timeWhenStopped;
     private long totalTimeStopped;
 
     private Handler handler;
@@ -46,48 +45,67 @@ public class ActivityCardFragment extends Fragment {
 
         timerText = getView().findViewById(R.id.timerText);
         startStopButton = getView().findViewById(R.id.startStopButton);
-        startStopButton.setText("START");
+        resetButton = getView().findViewById(R.id.resetButton);
 
+        if (activity.isActive()) {
+            startStopButton.setText("STOP");
+        } else {
+            startStopButton.setText("START");
+        }
+        totalTimeStopped = 0;
         int timeElapsed = (int) activity.getElapsedMilli();
         int seconds = timeElapsed / 1000 % 60;
         int minutes = timeElapsed / 60000 % 60;
         int hours = timeElapsed / 3600000;
 
-        timeWhenStopped = System.currentTimeMillis();
+
         String secondsString;
         String minutesString;
         String hoursString;
 
-        if (seconds < 10) {
-            secondsString = "0" + seconds;
+        if (seconds == 0 && !activity.isActive()) {
+            timerText.setText("00:00");
         } else {
-            secondsString = "" + seconds;
-        }
+            if (seconds < 10) {
+                secondsString = "0" + seconds;
+            } else {
+                secondsString = "" + seconds;
+            }
 
-        if (minutes == 0) {
-            minutesString = "00:";
-        } else {
-            minutesString = minutes + ":";
-        }
+            if (minutes == 0) {
+                minutesString = "00:";
+            } else {
+                minutesString = minutes + ":";
+            }
 
-        if (hours == 0) {
-            hoursString = "";
-        } else {
-            hoursString = hours + ":";
+            if (hours == 0) {
+                hoursString = "";
+            } else {
+                hoursString = hours + ":";
+            }
+            timerText.setText(hoursString + minutesString + secondsString);
         }
-        timerText.setText(hoursString + minutesString + secondsString);
-
         //Sets up an onClickListener to stop and start the timer
         startStopButton.setOnClickListener(v -> {
             if (activity.isActive()) {
                 activity.stop();
-                timeWhenStopped = System.currentTimeMillis();
                 startStopButton.setText("START");
             } else {
-                activity.start();
-                totalTimeStopped += System.currentTimeMillis() - timeWhenStopped;
+                if (activity.getEndTime() == 0) {
+                    activity.resetStart();
+                } else {
+                    activity.start();
+                }
+                totalTimeStopped += System.currentTimeMillis() - activity.getEndTime();
                 startStopButton.setText("STOP");
             }
+        });
+
+        resetButton.setOnClickListener(v -> {
+            activity.reset();
+            totalTimeStopped = 0;
+            timerText.setText("00:00");
+            startStopButton.setText("START");
         });
 
         handler.post(clockTimer);
@@ -98,13 +116,9 @@ public class ActivityCardFragment extends Fragment {
     private Runnable clockTimer = new Runnable() {
         @Override
         public void run() {
-            //when the timer was paused
             int timeElapsed;
             if (activity.isActive()) {
-
-
-                timeElapsed = (int) (activity.getElapsedMilli() - totalTimeStopped);
-                Log.i("ActivtyCardFragment", "Used it baybee");
+                timeElapsed = (int) (System.currentTimeMillis() - activity.getStartTime() - totalTimeStopped);
 
                 int seconds = timeElapsed / 1000 % 60;
                 int minutes = timeElapsed / 60000 % 60;
@@ -131,11 +145,10 @@ public class ActivityCardFragment extends Fragment {
                 } else {
                     hoursString = hours + ":";
                 }
-
                 timerText.setText(hoursString + minutesString + secondsString);
             }
             //recursive, calls its self
-            handler.postDelayed(clockTimer, 1000);
+            handler.postDelayed(clockTimer, 250);
         }
     };
 }
