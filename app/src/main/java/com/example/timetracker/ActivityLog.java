@@ -18,9 +18,11 @@ public class ActivityLog {
         for (JsonElement v : values) {
             JsonObject activity = (JsonObject) v;
             String name = activity.get("name").getAsString();
-            Long startTime = activity.get("startTime").getAsLong();
-            Long totalTime = activity.get("totalTime").getAsLong();
-            Activity newActivity = new Activity(name, startTime, totalTime);
+            long startTime = activity.get("startTime").getAsLong();
+            long endTime = activity.get("endTime").getAsLong();
+            long totalTime = activity.get("totalTime").getAsLong();
+            boolean isActive = activity.get("isActive").getAsBoolean();
+            Activity newActivity = new Activity(name, startTime, endTime, totalTime, isActive);
             activityList.add(newActivity);
         }
     }
@@ -29,21 +31,10 @@ public class ActivityLog {
     public ActivityLog() {
         activityList = new ArrayList<>();
         //TODO Remove this Test
-//        Activity test = new Activity("Running", System.currentTimeMillis() - 900000, 0);
-//        Activity test2 = new Activity("Gaming", 1588655460, 9000000 + 900000);
-//        activityList.add(test);
-//        activityList.add(test2);
-        //Edited the test constructor to check pie chart functionality. -Arif
-        //I basically used the setStartTime field to put in hypothetical time spent on activities
-        //in minutes.
-        Activity test = new Activity("Running", 30, 0);
-        Activity test2 = new Activity("Gaming", 60, 9000000 + 900000);
-        Activity test3 = new Activity("Studying", 120, 0);
-        Activity test4 = new Activity("Reading", 120, 9000000 + 900000);
+        Activity test = new Activity("Running", System.currentTimeMillis() - 900000, System.currentTimeMillis() - 36000, 80000000000L, true);
+        //Activity test2 = new Activity("Gaming", 1588655460, 9000000 + 900000);
         activityList.add(test);
-        activityList.add(test2);
-        activityList.add(test3);
-        activityList.add(test4);
+        //activityList.add(test2);
     }
 
     public void add(Activity activity) {
@@ -88,6 +79,7 @@ public class ActivityLog {
             JsonObject activityJson = new JsonObject();
             activityJson.addProperty("name", activityList.get(i).getName());
             activityJson.addProperty("startTime", activityList.get(i).getStartTime());
+            activityJson.addProperty("endTime", activityList.get(i).getEndTime());
             activityJson.addProperty("totalTime", activityList.get(i).getTotalTime());
             activityJson.addProperty("isActive", activityList.get(i).isActive());
             jsonArray.add(activityJson);
