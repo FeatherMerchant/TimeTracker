@@ -1,6 +1,6 @@
 package com.example.timetracker;
 
-import android.bluetooth.BluetoothClass;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -11,18 +11,18 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class ActivityCardFragment extends Fragment {
-    TextView activityTitle;
-    TextView timerText;
-    Activity activity;
-    Timer clockTimer;
-    Button startStopButton;
+    private TextView activityTitle;
+    private TextView timerText;
+    private Activity activity;
+    private Button startStopButton;
+
+    private Handler handler;
 
     public ActivityCardFragment(Activity setActivity) {
         activity = setActivity;
+        handler = new Handler();
     }
 
     @Override
@@ -40,7 +40,6 @@ public class ActivityCardFragment extends Fragment {
         activityTitle.setText(activity.getName());
 
         timerText = getView().findViewById(R.id.timerText);
-        clockTimer = new Timer();
         startStopButton = getView().findViewById(R.id.startStopButton);
         startStopButton.setText("START");
 
@@ -56,12 +55,11 @@ public class ActivityCardFragment extends Fragment {
             }
         });
 
+        handler.post(clockTimer);
     }
 
-    public void updateTime(String time) {
-        timerText.setText(time);
-    }
-
+    //Runnable thingy, don't really understand how it works, but it runs in parallel to the main
+    //program and allows us to update the timer text.
     Runnable clockTimer = new Runnable() {
         @Override
         public void run() {
@@ -74,6 +72,7 @@ public class ActivityCardFragment extends Fragment {
                 String secondsString;
                 String minutesString;
                 String hoursString;
+
                 if (seconds < 10) {
                     secondsString = "0" + seconds;
                 } else {
@@ -81,7 +80,7 @@ public class ActivityCardFragment extends Fragment {
                 }
 
                 if (minutes == 0) {
-                    minutesString = "00";
+                    minutesString = "00:";
                 } else {
                     minutesString = minutes + ":";
                 }
@@ -93,6 +92,7 @@ public class ActivityCardFragment extends Fragment {
                 }
                 timerText.setText(hoursString + minutesString + secondsString);
             }
+            //recursive, calls it self in
             handler.postDelayed(clockTimer, 1000);
         }
     };
