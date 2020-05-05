@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,40 +23,57 @@ import java.util.ArrayList;
 
 public class StatisticsFragment extends Fragment {
 
+    private Handler handler = new Handler();
+
+    private View v;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.statistics_tab, container, false);
-        PieChart pieChart = rootView.findViewById(R.id.piechart);
-        Context context = this.getActivity();
-        //initializing sharedPreferences for data storage
-        SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        ActivityLog activityLog;
+        return rootView;
+    }
 
-        //Loads in values from storage and creates a new ActivityLog with those values
-        String activityValues = sharedPref.getString(getString(R.string.activity_log_values_key), null);
-        if (activityValues != null) {
-            JsonArray jsonArray = new Gson().fromJson(activityValues, JsonArray.class);
-            activityLog = new ActivityLog(jsonArray);
-        } else {
-            activityLog = new ActivityLog();
-        }
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        v = view;
+        handler.post(updater);
+    }
 
-        ArrayList<PieEntry> entries = new ArrayList<>();
-        //ActivityLog activityLog = new ActivityLog(); //This is for testing. Only works if you remove code block above.
-        int m = activityLog.size();
-        for (int i = 0; i < m; i++) {
-            Activity tmp = activityLog.get(i);
-            //Retrieve and store Activity data in a PieEntry list so it can be used by library.
-            //Syntax is PieEntry(time spent, "[Name of Activity]").
-            //Unsure of how to get the time spent from the ActivityLog from variables getStartTime and getTotalTime
-            entries.add(new PieEntry(tmp.getTotalTime() / 3600000, tmp.getName()));
-        }
-        PieDataSet dataset = new PieDataSet(entries, "Activities done today");
-        dataset.setColors(ColorTemplate.COLORFUL_COLORS);
+    private Runnable updater = new Runnable() {
+        @Override
+        public void run() {
+            PieChart pieChart = v.findViewById(R.id.piechart);
+            Context context = getActivity();
+            //initializing sharedPreferences for data storage
+            SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            ActivityLog activityLog;
+
+            //Loads in values from storage and creates a new ActivityLog with those values
+            String activityValues = sharedPref.getString(getString(R.string.activity_log_values_key), null);
+            if (activityValues != null) {
+                JsonArray jsonArray = new Gson().fromJson(activityValues, JsonArray.class);
+                activityLog = new ActivityLog(jsonArray);
+            } else {
+                activityLog = new ActivityLog();
+            }
+
+            ArrayList<PieEntry> entries = new ArrayList<>();
+            //ActivityLog activityLog = new ActivityLog(); //This is for testing. Only works if you remove code block above.
+            int m = activityLog.size();
+            for (int i = 0; i < m; i++) {
+                Activity tmp = activityLog.get(i);
+                //Retrieve and store Activity data in a PieEntry list so it can be used by library.
+                //Syntax is PieEntry(time spent, "[Name of Activity]").
+                //Unsure of how to get the time spent from the ActivityLog from variables getStartTime and getTotalTime
+                entries.add(new PieEntry((int) activityLog.getPercentage(tmp), tmp.getName()));
+            }
+            PieDataSet dataset = new PieDataSet(entries, "Activities done today");
+            dataset.setColors(ColorTemplate.COLORFUL_COLORS);
 //        //Example PieChart
 //        ArrayList<PieEntry> entries = new ArrayList<>();
 //        entries.add(new PieEntry(30f, "Running")); //Running
@@ -66,14 +84,14 @@ public class StatisticsFragment extends Fragment {
 //        PieDataSet dataset = new PieDataSet(entries, "Activities done today");
 //        dataset.setColors(ColorTemplate.COLORFUL_COLORS);
 
-        PieData data = new PieData(dataset);
-        data.setValueTextSize(40f);
-        pieChart.setData(data);
-        pieChart.setHoleRadius(35);
-        pieChart.setTransparentCircleRadius(40);
-        pieChart.setTransparentCircleColor(Color.WHITE);
-        pieChart.setTouchEnabled(false);
-
-        return rootView;
-    }
+            PieData data = new PieData(dataset);
+            data.setValueTextSize(40f);
+            pieChart.setData(data);
+            pieChart.setHoleRadius(35);
+            pieChart.setTransparentCircleRadius(40);
+            pieChart.setTransparentCircleColor(Color.WHITE);
+            pieChart.setTouchEnabled(false);
+            handler.postDelayed(updater, 25000);
+        }
+    };
 }

@@ -27,18 +27,13 @@ public class ActivityLog {
         }
     }
 
-    //Test Constructor
     public ActivityLog() {
         activityList = new ArrayList<>();
-        //TODO Remove this Test
-        Activity test = new Activity("Running", System.currentTimeMillis() - 900000, System.currentTimeMillis() - 36000, 80000000000L, true);
-        //Activity test2 = new Activity("Gaming", 1588655460, 9000000 + 900000);
-        activityList.add(test);
-        //activityList.add(test2);
     }
 
-    public void add(Activity activity) {
+    public ActivityCardFragment add(Activity activity) {
         activityList.add(activity);
+        return new ActivityCardFragment(activity);
     }
 
     public void remove(Activity activity) {
