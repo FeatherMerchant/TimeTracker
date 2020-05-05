@@ -3,6 +3,7 @@ package com.example.timetracker;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ public class TextPromptFragment extends Fragment {
     private Button doneButton;
     private Button cancelButton;
     private String input;
+    boolean clicked;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceBundle) {
         return inflater.inflate(R.layout.text_prompt_window, container, false);
@@ -26,6 +28,17 @@ public class TextPromptFragment extends Fragment {
         editText = getView().findViewById(R.id.edit_text);
         doneButton = getView().findViewById(R.id.done_button);
         cancelButton = getView().findViewById(R.id.cancel_button);
+
+        clicked = false;
+        doneButton.setOnClickListener(v ->{
+            input = editText.getText().toString();
+            clicked = true;
+        });
+
+        cancelButton.setOnClickListener(v ->{
+            input = null;
+            clicked = true;
+        });
     }
 
     @Override
@@ -37,13 +50,9 @@ public class TextPromptFragment extends Fragment {
     }
 
     public String getInput() {
-        doneButton.setOnClickListener(v ->{
-            input = editText.getText().toString();
-        });
-
-        cancelButton.setOnClickListener(v ->{
-            input = null;
-        });
+        while(!clicked) {
+            Log.i("Prompt", "waiting");
+        }
         return input;
     }
 }

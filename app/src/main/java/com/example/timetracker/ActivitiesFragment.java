@@ -8,30 +8,39 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 
 
-public class ActivitiesFragment extends Fragment {
+public class ActivitiesFragment extends Fragment implements View.OnClickListener {
     private ActivityLog activityLog;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
     private FragmentManager fragmentManager;
     private FloatingActionButton addButton;
+    private MaterialCardView inputCard;
+    private CoordinatorLayout layout;
 
-    //Called before onCreateView
-    public void  onViewCreated(View view, Bundle savedInstanceState) {
+
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Context context = this.getActivity();
         //Used for adding activity card fragments
         fragmentManager = getFragmentManager();
 
-        addButton = getView().findViewById(R.id.add_button);
+        inputCard = view.findViewById(R.id.input_card);
+        inputCard.setVisibility(View.INVISIBLE);
+
+        layout = view.findViewById(R.id.coord_layout);
+
+        addButton = view.findViewById(R.id.add_button);
         //initializing sharedPreferences for data storage
         sharedPref = context.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         editor = sharedPref.edit();
@@ -55,16 +64,8 @@ public class ActivitiesFragment extends Fragment {
             fragmentTransaction.add(R.id.fragmentContainer, newFragment).commit();
         }
 
-        addButton.setOnClickListener(v ->{
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            TextPromptFragment prompt = new TextPromptFragment();
-            fragmentTransaction.add(R.id.frame, prompt).commit();
-            if (prompt.getInput() != null) {
-                Activity newActivity = new Activity(prompt.getInput());
-                activityLog.add(newActivity);
-            }
-            fragmentTransaction.remove(prompt);
-        });
+        //add button for adding new activities
+        addButton.setOnClickListener(this);
     }
 
     //Called when fragment is created on the screen.
@@ -83,6 +84,11 @@ public class ActivitiesFragment extends Fragment {
         String values = activityLog.serialize();
         editor.putString(getString(R.string.activity_log_values_key), values);
         editor.commit();
+    }
+
+    public void onClick(View v) {
+        inputCard.setVisibility(View.VISIBLE);
+        layout.getBackground().setAlpha(100);
     }
 
 }
