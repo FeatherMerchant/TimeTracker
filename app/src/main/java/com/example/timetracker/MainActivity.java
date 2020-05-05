@@ -7,8 +7,10 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import android.content.Context;
 import android.util.Log;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -30,7 +32,6 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         isFabClicked = false;
 

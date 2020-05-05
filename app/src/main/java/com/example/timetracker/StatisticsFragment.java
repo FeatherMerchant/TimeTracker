@@ -52,7 +52,7 @@ public class StatisticsFragment extends Fragment {
             //Retrieve and store Activity data in a PieEntry list so it can be used by library.
             //Syntax is PieEntry(time spent, "[Name of Activity]").
             //Unsure of how to get the time spent from the ActivityLog from variables getStartTime and getTotalTime
-            entries.add(new PieEntry(tmp.getStartTime(), tmp.getName()));
+            entries.add(new PieEntry(- tmp.getStartTime() + tmp.getEndTime(), tmp.getName()));
         }
         PieDataSet dataset = new PieDataSet(entries, "Activities done today");
         dataset.setColors(ColorTemplate.COLORFUL_COLORS);
