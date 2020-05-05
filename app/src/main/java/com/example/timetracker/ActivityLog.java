@@ -1,10 +1,10 @@
 package com.example.timetracker;
 
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.Gson;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 public class ActivityLog {
     private List<Activity> activityList;
 
+    //Takes JSON array and populates list with activities
     public ActivityLog(JsonArray values) {
         activityList = new ArrayList<>();
         for (JsonElement v : values) {
@@ -24,8 +25,14 @@ public class ActivityLog {
         }
     }
 
+    //Test Constructor
     public ActivityLog() {
         activityList = new ArrayList<>();
+        //TODO Remove this Test
+        Activity test = new Activity("Running", System.currentTimeMillis() - 900000, 0);
+        Activity test2 = new Activity("Gaming", System.currentTimeMillis() - 9000000, 9000000 + 900000);
+        activityList.add(test);
+        activityList.add(test2);
     }
 
     public void add(Activity activity) {
@@ -36,6 +43,15 @@ public class ActivityLog {
         activityList.remove(activity);
     }
 
+    public int size() {
+        return activityList.size();
+    }
+
+    public Activity get(int i) {
+        return activityList.get(i);
+    }
+
+    //Returns percentage of time spent on activity
     public double getPercentage(Activity activity) {
         int totalTime = 0;
         boolean isFound = false;
@@ -53,8 +69,8 @@ public class ActivityLog {
         return percentage;
     }
 
-    public JsonArray toJson() {
-        Gson gson = new Gson();
+    //Serializes data into JSON as a string to store data
+    public String serialize() {
         JsonArray jsonArray = new JsonArray();
 
         for (int i = 0; i < activityList.size(); i++) {
@@ -65,6 +81,6 @@ public class ActivityLog {
             activityJson.addProperty("isActive", activityList.get(i).isActive());
             jsonArray.add(activityJson);
         }
-        return jsonArray;
+        return jsonArray.toString();
     }
 }

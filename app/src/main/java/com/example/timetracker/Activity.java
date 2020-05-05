@@ -16,12 +16,14 @@ public class Activity {
     Context context;
 
     public Activity(String setName) {
+        isActive = false;
         name = setName;
         totalTime = 0;
         startTime = 0;
     }
 
     public Activity(String setName, long setStartTime, long setTotalTime) {
+        isActive = false;
         name = setName;
         startTime = setStartTime;
         totalTime = setTotalTime;
