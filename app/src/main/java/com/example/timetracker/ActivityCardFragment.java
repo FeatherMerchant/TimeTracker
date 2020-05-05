@@ -91,11 +91,7 @@ public class ActivityCardFragment extends Fragment {
                 activity.stop();
                 startStopButton.setText("START");
             } else {
-                if (activity.getEndTime() == 0) {
-                    activity.resetStart();
-                } else {
-                    activity.start();
-                }
+                activity.start();
                 totalTimeStopped += System.currentTimeMillis() - activity.getEndTime();
                 startStopButton.setText("STOP");
             }

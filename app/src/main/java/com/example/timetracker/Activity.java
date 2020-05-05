@@ -75,11 +75,8 @@ public class Activity {
     public void reset() {
         totalTime += sessionTime;
         isActive = false;
-    }
-
-    public void resetStart() {
-        isActive = true;
         startTime = System.currentTimeMillis();
+        endTime = System.currentTimeMillis();
     }
 
     public void start() {
