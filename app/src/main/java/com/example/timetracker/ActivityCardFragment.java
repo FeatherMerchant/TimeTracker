@@ -21,6 +21,7 @@ public class ActivityCardFragment extends Fragment {
 
     //System time when timer is stopped
     private long timeWhenStopped;
+    private long totalTimeStopped;
 
     private Handler handler;
 
@@ -52,6 +53,7 @@ public class ActivityCardFragment extends Fragment {
         int minutes = timeElapsed / 60000 % 60;
         int hours = timeElapsed / 3600000;
 
+        timeWhenStopped = System.currentTimeMillis();
         String secondsString;
         String minutesString;
         String hoursString;
@@ -83,6 +85,7 @@ public class ActivityCardFragment extends Fragment {
                 startStopButton.setText("START");
             } else {
                 activity.start();
+                totalTimeStopped += System.currentTimeMillis() - timeWhenStopped;
                 startStopButton.setText("STOP");
             }
         });
@@ -96,17 +99,13 @@ public class ActivityCardFragment extends Fragment {
         @Override
         public void run() {
             //when the timer was paused
-            int timeStopped = 0;
-            boolean wasStopped = false;
             int timeElapsed;
             if (activity.isActive()) {
 
-                if (timeWhenStopped != 0) {
-                    timeElapsed = (int) (activity.getElapsedMilli() - System.currentTimeMillis() - timeWhenStopped);
-                    Log.i("ActivtyCardFragment", "Used it baybee");
-                } else {
-                    timeElapsed = (int) activity.getElapsedMilli();
-                }
+
+                timeElapsed = (int) (activity.getElapsedMilli() - totalTimeStopped);
+                Log.i("ActivtyCardFragment", "Used it baybee");
+
                 int seconds = timeElapsed / 1000 % 60;
                 int minutes = timeElapsed / 60000 % 60;
                 int hours = timeElapsed / 3600000;
