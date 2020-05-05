@@ -1,14 +1,28 @@
 package com.example.timetracker;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class ActivityLog {
     private List<Activity> activityList;
+
+    public ActivityLog(JsonArray values) {
+        activityList = new ArrayList<>();
+        for (JsonElement v : values) {
+            JsonObject activity = (JsonObject) v;
+            String name = activity.get("name").getAsString();
+            Long startTime = activity.get("startTime").getAsLong();
+            Long totalTime = activity.get("totalTime").getAsLong();
+            Activity newActivity = new Activity(name, startTime, totalTime);
+            activityList.add(newActivity);
+        }
+    }
 
     public ActivityLog() {
         activityList = new ArrayList<>();
@@ -53,5 +67,4 @@ public class ActivityLog {
         }
         return jsonArray;
     }
-
 }

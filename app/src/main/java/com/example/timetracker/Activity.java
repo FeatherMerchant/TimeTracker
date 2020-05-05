@@ -21,12 +21,6 @@ public class Activity {
         startTime = 0;
     }
 
-    public  Activity(String setName, long setTotalTime) {
-        name = setName;
-        totalTime = setTotalTime;
-        startTime = 0;
-    }
-
     public Activity(String setName, long setStartTime, long setTotalTime) {
         name = setName;
         startTime = setStartTime;
