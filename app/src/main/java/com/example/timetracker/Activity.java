@@ -22,10 +22,6 @@ public class Activity {
         totalTime = 0;
         startTime = 0;
         endTime = 0;
-        card = new MaterialCardView(context);
-        card.setOnClickListener(v -> {
-
-        });
     }
 
     public  Activity(String setName, long setTotalTime, Context setContext) {
