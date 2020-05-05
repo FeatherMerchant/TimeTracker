@@ -56,7 +56,7 @@ public class Activity {
     }
 
     public long getTotalTime() {
-        return totalTime;
+        return totalTime + sessionTime;
     }
 
     public boolean equals(Object obj) {

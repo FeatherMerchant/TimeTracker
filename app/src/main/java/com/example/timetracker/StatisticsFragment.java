@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,9 +44,11 @@ public class StatisticsFragment extends Fragment {
         handler.post(updater);
     }
 
+
     private Runnable updater = new Runnable() {
         @Override
         public void run() {
+            Gson gson = new Gson();
             PieChart pieChart = v.findViewById(R.id.piechart);
             Context context = getActivity();
             //initializing sharedPreferences for data storage
@@ -71,8 +74,9 @@ public class StatisticsFragment extends Fragment {
                 //Syntax is PieEntry(time spent, "[Name of Activity]").
                 //Unsure of how to get the time spent from the ActivityLog from variables getStartTime and getTotalTime
                 entries.add(new PieEntry((int) activityLog.getPercentage(tmp), tmp.getName()));
+                Log.i("PieInfo", tmp.getTotalTime() / 60000 + " minutes done");
             }
-            PieDataSet dataset = new PieDataSet(entries, "Activities done today");
+            PieDataSet dataset = new PieDataSet(entries, "Hours Done");
             dataset.setColors(ColorTemplate.COLORFUL_COLORS);
 //        //Example PieChart
 //        ArrayList<PieEntry> entries = new ArrayList<>();
@@ -91,7 +95,7 @@ public class StatisticsFragment extends Fragment {
             pieChart.setTransparentCircleRadius(40);
             pieChart.setTransparentCircleColor(Color.WHITE);
             pieChart.setTouchEnabled(false);
-            handler.postDelayed(updater, 25000);
+            handler.postDelayed(updater, 2500);
         }
     };
 }
