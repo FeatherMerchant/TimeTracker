@@ -18,11 +18,11 @@ public class ActivityLog {
         for (JsonElement v : values) {
             JsonObject activity = (JsonObject) v;
             String name = activity.get("name").getAsString();
-            long startTime = activity.get("startTime").getAsLong();
+            long sessionTime = activity.get("sessionTime").getAsLong();
             long endTime = activity.get("endTime").getAsLong();
             long totalTime = activity.get("totalTime").getAsLong();
             boolean isActive = activity.get("isActive").getAsBoolean();
-            Activity newActivity = new Activity(name, startTime, endTime, totalTime, isActive);
+            Activity newActivity = new Activity(name, sessionTime, endTime, totalTime, isActive);
             activityList.add(newActivity);
         }
     }
@@ -74,7 +74,7 @@ public class ActivityLog {
         for (int i = 0; i < activityList.size(); i++) {
             JsonObject activityJson = new JsonObject();
             activityJson.addProperty("name", activityList.get(i).getName());
-            activityJson.addProperty("startTime", activityList.get(i).getStartTime());
+            activityJson.addProperty("sessionTime", activityList.get(i).getSessionTime());
             activityJson.addProperty("endTime", activityList.get(i).getEndTime());
             activityJson.addProperty("totalTime", activityList.get(i).getTotalTime());
             activityJson.addProperty("isActive", activityList.get(i).isActive());

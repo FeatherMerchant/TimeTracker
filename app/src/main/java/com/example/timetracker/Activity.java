@@ -25,11 +25,11 @@ public class Activity {
         sessionTime = 0;
     }
 
-    public Activity(String setName, long setStartTime, long setEndTime, long setTotalTime, boolean setIsActive) {
+    public Activity(String setName, long setSessionTime, long setEndTime, long setTotalTime, boolean setIsActive) {
         sessionTime = 0;
         isActive = setIsActive;
         name = setName;
-        startTime = setStartTime;
+        sessionTime = setSessionTime;
         endTime = setEndTime;
         totalTime = setTotalTime;
     }
@@ -62,6 +62,13 @@ public class Activity {
         endTime = setTime;
     }
 
+    public long getSessionTime() {
+        return sessionTime;
+    }
+
+    public void addSessionTime(long millis) {
+        sessionTime += millis;
+    }
     public long getTotalTime() {
         return totalTime;
     }
@@ -79,27 +86,17 @@ public class Activity {
     }
 
 
-    public long getElapsedMilli() {
-        return endTime - startTime;
-    }
-
     public void reset() {
-        totalTime += sessionTime;
         isActive = false;
-        startTime = System.currentTimeMillis();
-        endTime = System.currentTimeMillis();
+        sessionTime = 0;
     }
 
     public void start() {
         isActive = true;
-        if (getEndTime() != 0) {
-            totalTimeStopped += System.currentTimeMillis() - getEndTime();
-        }
     }
 
     public void stop() {
         isActive = false;
         endTime = System.currentTimeMillis();
-        sessionTime = this.getElapsedMilli();
     }
 }

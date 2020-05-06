@@ -109,6 +109,9 @@ public class ActivitiesFragment extends Fragment {
             cancelbutton.setClickable(false);
             coordinatorLayout.setAlpha(1f);
         });
+        String values = activityLog.serialize();
+        editor.putString(getString(R.string.activity_log_values_key), values);
+        editor.commit();
     }
 
     //Called when fragment is created on the screen.

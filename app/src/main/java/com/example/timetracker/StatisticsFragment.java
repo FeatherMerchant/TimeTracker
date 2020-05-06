@@ -74,8 +74,8 @@ public class StatisticsFragment extends Fragment {
                 //Syntax is PieEntry(time spent, "[Name of Activity]").
                 //Unsure of how to get the time spent from the ActivityLog from variables getStartTime and getTotalTime
 
-
-                entries.add(new PieEntry(tmp.getTotalTime() / 60000, tmp.getName()));
+                //adds data to pie chart in terms of hours
+                entries.add(new PieEntry((float) tmp.getTotalTime() / 60000, tmp.getName()));
                 Log.i("PieInfo", (tmp.getTotalTime() / 60000) + " minutes done");
 
             }

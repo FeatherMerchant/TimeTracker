@@ -1,6 +1,7 @@
 package com.example.timetracker;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +14,9 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+
 
 public class ActivityCardFragment extends Fragment {
     private TextView activityTitle;
@@ -20,6 +24,7 @@ public class ActivityCardFragment extends Fragment {
     private Activity activity;
     private Button startStopButton;
     private Button resetButton;
+    private long sessionTime;
 
     private Handler handler;
 
@@ -48,11 +53,11 @@ public class ActivityCardFragment extends Fragment {
 
         if (activity.isActive()) {
             startStopButton.setText("STOP");
-            activity.addTotalTime(System.currentTimeMillis() - activity.getEndTime());
+            activity.addSessionTime(System.currentTimeMillis() - activity.getEndTime());
         } else {
             startStopButton.setText("START");
         }
-        long timeElapsed = activity.getTotalTime();
+        long timeElapsed = activity.getSessionTime();
         int seconds = (int) timeElapsed / 1000 % 60;
         int minutes = (int) timeElapsed / 60000 % 60;
         int hours = (int) timeElapsed / 3600000;
@@ -111,8 +116,7 @@ public class ActivityCardFragment extends Fragment {
         public void run() {
             long timeElapsed;
             if (activity.isActive()) {
-                timeElapsed = activity.getTotalTime();
-                activity.setEndTime(System.currentTimeMillis());
+                timeElapsed = activity.getSessionTime();
                 int seconds = (int) timeElapsed / 1000 % 60;
                 int minutes = (int) timeElapsed / 60000 % 60;
                 int hours = (int) timeElapsed / 3600000;
@@ -139,8 +143,20 @@ public class ActivityCardFragment extends Fragment {
                     hoursString = hours + ":";
                 }
                 timerText.setText(hoursString + minutesString + secondsString);
+                activity.addSessionTime(250);
                 activity.addTotalTime(250);
                 Log.i("Time Ellapsed", ":" + activity.getTotalTime());
+                Context context = getActivity();
+                SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                String activityValues = sharedPref.getString(getString(R.string.activity_log_values_key), null);
+                if (activityValues != null) {
+                    JsonArray jsonArray = new Gson().fromJson(activityValues, JsonArray.class);
+                    ActivityLog activityLog = new ActivityLog(jsonArray);
+                    String values = activityLog.serialize();
+                    editor.putString(getString(R.string.activity_log_values_key), values);
+                    editor.commit();
+                }
             }
             //recursive, calls its self
             handler.postDelayed(clockTimer, 250);
