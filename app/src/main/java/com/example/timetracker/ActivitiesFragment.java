@@ -129,8 +129,6 @@ public class ActivitiesFragment extends Fragment {
         //Commits data to storage before pausing.
         String values = activityLog.serialize();
         editor.putString(getString(R.string.activity_log_values_key), values);
-        editor.commit();
+        editor.apply();
     }
-
-
 }

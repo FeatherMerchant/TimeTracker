@@ -1,8 +1,6 @@
 package com.example.timetracker;
 
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -14,8 +12,6 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 
 
 public class ActivityCardFragment extends Fragment {
@@ -24,7 +20,6 @@ public class ActivityCardFragment extends Fragment {
     private Activity activity;
     private Button startStopButton;
     private Button resetButton;
-    private long sessionTime;
 
     private Handler handler;
 
@@ -54,6 +49,7 @@ public class ActivityCardFragment extends Fragment {
         if (activity.isActive()) {
             startStopButton.setText("STOP");
             activity.addSessionTime(System.currentTimeMillis() - activity.getEndTime());
+            Log.i("ActivityFragment", "Time delta: " + (System.currentTimeMillis() - activity.getEndTime()));
         } else {
             startStopButton.setText("START");
         }
@@ -145,11 +141,12 @@ public class ActivityCardFragment extends Fragment {
                 timerText.setText(hoursString + minutesString + secondsString);
                 activity.addSessionTime(250);
                 activity.addTotalTime(250);
-                Log.i("Time Ellapsed", ":" + activity.getTotalTime());
+                /*
                 Context context = getActivity();
                 SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
                 String activityValues = sharedPref.getString(getString(R.string.activity_log_values_key), null);
+
                 if (activityValues != null) {
                     JsonArray jsonArray = new Gson().fromJson(activityValues, JsonArray.class);
                     ActivityLog activityLog = new ActivityLog(jsonArray);
@@ -157,6 +154,8 @@ public class ActivityCardFragment extends Fragment {
                     editor.putString(getString(R.string.activity_log_values_key), values);
                     editor.commit();
                 }
+
+                 */
             }
             //recursive, calls its self
             handler.postDelayed(clockTimer, 250);

@@ -49,16 +49,19 @@
         android:layout_margin="12dp"
         android:elevation="6dp"
         android:src="@drawable/ic_add_24px" />
-
+<ScrollView
+    android:layout_width="350dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:layout_marginTop="100dp">
     <LinearLayout
         android:id="@+id/fragmentContainer"
-        android:layout_width="350dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_marginTop="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:orientation="vertical">
 
     </LinearLayout>
-
+</ScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </FrameLayout>
