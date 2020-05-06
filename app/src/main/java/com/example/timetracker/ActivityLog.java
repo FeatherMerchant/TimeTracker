@@ -55,6 +55,7 @@ public class ActivityLog {
         for (int i = 0; i < activityList.size(); i++) {
             if (activityList.get(i).equals(activity)) {
                 isFound = true;
+                totalTime += activityList.get(i).getTotalTime();
             } else {
                 totalTime += activityList.get(i).getTotalTime();
             }

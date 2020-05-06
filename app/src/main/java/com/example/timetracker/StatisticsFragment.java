@@ -73,8 +73,11 @@ public class StatisticsFragment extends Fragment {
                 //Retrieve and store Activity data in a PieEntry list so it can be used by library.
                 //Syntax is PieEntry(time spent, "[Name of Activity]").
                 //Unsure of how to get the time spent from the ActivityLog from variables getStartTime and getTotalTime
-                entries.add(new PieEntry((int) activityLog.getPercentage(tmp), tmp.getName()));
-                Log.i("PieInfo", tmp.getTotalTime() / 60000 + " minutes done");
+
+
+                entries.add(new PieEntry(tmp.getTotalTime() / 60000, tmp.getName()));
+                Log.i("PieInfo", (tmp.getTotalTime() / 60000) + " minutes done");
+
             }
             PieDataSet dataset = new PieDataSet(entries, "Hours Done");
             dataset.setColors(ColorTemplate.COLORFUL_COLORS);
@@ -95,7 +98,7 @@ public class StatisticsFragment extends Fragment {
             pieChart.setTransparentCircleRadius(40);
             pieChart.setTransparentCircleColor(Color.WHITE);
             pieChart.setTouchEnabled(false);
-            handler.postDelayed(updater, 2500);
+            handler.postDelayed(updater, 250);
         }
     };
 }

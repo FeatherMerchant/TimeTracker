@@ -1,8 +1,10 @@
 package com.example.timetracker;
 
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +20,6 @@ public class ActivityCardFragment extends Fragment {
     private Activity activity;
     private Button startStopButton;
     private Button resetButton;
-
-    private long totalTimeStopped;
 
     private Handler handler;
 
@@ -48,14 +48,14 @@ public class ActivityCardFragment extends Fragment {
 
         if (activity.isActive()) {
             startStopButton.setText("STOP");
+            activity.addTotalTime(System.currentTimeMillis() - activity.getEndTime());
         } else {
             startStopButton.setText("START");
         }
-        totalTimeStopped = 0;
-        int timeElapsed = (int) activity.getElapsedMilli();
-        int seconds = timeElapsed / 1000 % 60;
-        int minutes = timeElapsed / 60000 % 60;
-        int hours = timeElapsed / 3600000;
+        long timeElapsed = activity.getTotalTime();
+        int seconds = (int) timeElapsed / 1000 % 60;
+        int minutes = (int) timeElapsed / 60000 % 60;
+        int hours = (int) timeElapsed / 3600000;
 
 
         String secondsString;
@@ -91,14 +91,12 @@ public class ActivityCardFragment extends Fragment {
                 startStopButton.setText("START");
             } else {
                 activity.start();
-                totalTimeStopped += System.currentTimeMillis() - activity.getEndTime();
                 startStopButton.setText("STOP");
             }
         });
 
         resetButton.setOnClickListener(v -> {
             activity.reset();
-            totalTimeStopped = 0;
             timerText.setText("00:00");
             startStopButton.setText("START");
         });
@@ -111,13 +109,13 @@ public class ActivityCardFragment extends Fragment {
     private Runnable clockTimer = new Runnable() {
         @Override
         public void run() {
-            int timeElapsed;
+            long timeElapsed;
             if (activity.isActive()) {
-                timeElapsed = (int) (System.currentTimeMillis() - activity.getStartTime() - totalTimeStopped);
-
-                int seconds = timeElapsed / 1000 % 60;
-                int minutes = timeElapsed / 60000 % 60;
-                int hours = timeElapsed / 3600000;
+                timeElapsed = activity.getTotalTime();
+                activity.setEndTime(System.currentTimeMillis());
+                int seconds = (int) timeElapsed / 1000 % 60;
+                int minutes = (int) timeElapsed / 60000 % 60;
+                int hours = (int) timeElapsed / 3600000;
 
                 String secondsString;
                 String minutesString;
@@ -141,9 +139,19 @@ public class ActivityCardFragment extends Fragment {
                     hoursString = hours + ":";
                 }
                 timerText.setText(hoursString + minutesString + secondsString);
+                activity.addTotalTime(250);
+                Log.i("Time Ellapsed", ":" + activity.getTotalTime());
             }
             //recursive, calls its self
             handler.postDelayed(clockTimer, 250);
         }
     };
+
+    public void onPause() {
+        super.onPause();
+        if (activity.isActive()) {
+            activity.setEndTime(System.currentTimeMillis());
+        }
+    }
+
 }

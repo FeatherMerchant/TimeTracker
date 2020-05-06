@@ -11,6 +11,7 @@ public class Activity {
     private long startTime;
     private long endTime;
     private long totalTime;
+    private long totalTimeStopped;
     private long sessionTime;
     private boolean isActive;
 
@@ -21,9 +22,11 @@ public class Activity {
         totalTime = 0;
         startTime = 0;
         endTime = 0;
+        sessionTime = 0;
     }
 
     public Activity(String setName, long setStartTime, long setEndTime, long setTotalTime, boolean setIsActive) {
+        sessionTime = 0;
         isActive = setIsActive;
         name = setName;
         startTime = setStartTime;
@@ -55,8 +58,16 @@ public class Activity {
         return endTime;
     }
 
+    public void setEndTime(long setTime) {
+        endTime = setTime;
+    }
+
     public long getTotalTime() {
-        return totalTime + sessionTime;
+        return totalTime;
+    }
+
+    public void addTotalTime(long millis) {
+        totalTime += millis;
     }
 
     public boolean equals(Object obj) {
@@ -81,6 +92,9 @@ public class Activity {
 
     public void start() {
         isActive = true;
+        if (getEndTime() != 0) {
+            totalTimeStopped += System.currentTimeMillis() - getEndTime();
+        }
     }
 
     public void stop() {
