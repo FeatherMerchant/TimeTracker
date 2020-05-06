@@ -185,6 +185,7 @@ public class ActivityCardFragment extends Fragment {
                  */
             }
             //recursive, calls its self
+            activity.setEndTime(System.currentTimeMillis());
             handler.postDelayed(clockTimer, 1000);
         }
     };

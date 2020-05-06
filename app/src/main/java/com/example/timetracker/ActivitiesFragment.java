@@ -56,6 +56,7 @@ public class ActivitiesFragment extends Fragment {
             }
         } else {
             activityLog = new ActivityLog();
+            Log.i("ActivityFragment", "New activity");
         }
 
         //Populates activities tab with activity cards
