@@ -16,6 +16,7 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -99,7 +100,6 @@ public class StatisticsFragment extends Fragment {
     private Runnable update = new Runnable() {
         @Override
         public void run() {
-            pieChart.invalidate();
             Context context = getActivity();
             //initializing sharedPreferences for data storage
             SharedPreferences sharedPref = context.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
@@ -140,13 +140,20 @@ public class StatisticsFragment extends Fragment {
 
             PieData data = new PieData(dataset);
             data.setValueTextSize(40f);
+            data.setValueFormatter(new ValueFormatter() {
+                @Override
+                public String getFormattedValue(float value) {
+                    return String.valueOf((int) Math.floor(value));
+                }
+            });
             pieChart.setData(data);
             pieChart.setHoleRadius(35);
             pieChart.setTransparentCircleRadius(40);
             pieChart.setTransparentCircleColor(Color.WHITE);
             pieChart.setTouchEnabled(false);
             pieChart.setUsePercentValues(true);
-            handler.postDelayed(update, 10000);
+            pieChart.invalidate();
+            handler.postDelayed(update, 1000);
         }
     };
 }

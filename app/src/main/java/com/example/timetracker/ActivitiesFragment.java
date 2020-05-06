@@ -70,7 +70,6 @@ public class ActivitiesFragment extends Fragment {
         inputCard.setVisibility(View.INVISIBLE);
 
         coordinatorLayout = view.findViewById(R.id.coord_layout);
-        Log.i("Frag", view.toString());
         addButton = view.findViewById(R.id.add_button);
         //add button for adding new activities
         boolean isClicked = false;
