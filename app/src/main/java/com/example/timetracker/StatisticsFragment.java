@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
@@ -143,10 +144,14 @@ public class StatisticsFragment extends Fragment {
             data.setValueFormatter(new ValueFormatter() {
                 @Override
                 public String getFormattedValue(float value) {
-                    return String.valueOf((int) Math.floor(value));
+                    return String.valueOf((int) Math.floor(value)) +"%";
                 }
             });
             pieChart.setData(data);
+            Description description = new Description();
+            description.setText("");
+            pieChart.setDescription(description);
+            pieChart.setDrawEntryLabels(false);
             pieChart.setHoleRadius(35);
             pieChart.setTransparentCircleRadius(40);
             pieChart.setTransparentCircleColor(Color.WHITE);
